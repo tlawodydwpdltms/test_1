@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./30.슬라이드.css">
+    
+    <style>
+        body { margin: 0;}
+        .contents_area {
+            background-color: yellowgreen;
+            width: 1100px;
+            margin: auto;
+        }
+        .header {
+            width: 100%;
+            height: 100px;
+            background-color: pink;
+            padding: 10px 0;
+            box-sizing: border-box;
+        }
+        .header_container {
+            height: 100%;
+
+            background-color: yellowgreen;
+            width: 1100px;
+            margin: auto;
+        }
+        .logo {
+            width: 200px;
+            height: 100%;
+            font-size: 30px;
+            background-color: plum;
+            background-image: url(./img/kakaologo.png);
+            background-position: -30px;
+            background-repeat: no-repeat;
+
+            display: inline-block;
+        }
+        .container {
+            width: 100%;
+            height: 2000px;
+            background-color: bisque;
+        }
+        .main_banner1 {
+            width: 100%;
+            height: 400px;
+            background-color: skyblue;
+            
+        }
+        .main {
+            height: 800px;
+
+            background-color: yellowgreen;
+            width: 1100px;
+            margin: auto;
+        }
+        .menu_bar {
+            float: right;
+            background: bisque;
+            list-style: none;
+            padding-left: 0;
+        }
+        .menu_bar li {
+            float: right;
+            font-size: 15px;
+            font-weight: 800;
+            line-height: 50px;
+            /* margin-right: 20px; */
+            /* margin-left: 20px; */
+            padding: 0 15px;
+            
+        }
+        a {
+            text-decoration-line: none;
+        }
+        
+
+
+    </style>
+</head>
+<body>
+<div id="wrap">
+    <div class="header">
+        <div class="header_container contents_area">
+            <a href="#"><div class="logo"></div></a>
+
+                <ul class="menu_bar">
+                    <li><a href="#">카테고리</a></li>
+                    <li><a href="#">스토리</a></li>
+                    <li><a href="#">매장안내</a></li>
+                    <li><a href="#">고객센터</a></li>                    
+                </ul>
+            
+        </div>
+    </div>
+    <div class="container">
+        <div class="main_banner1">
+            <div class="main_banner">
+                <div class="banner banner1">0<img src="" alt="" class="img_1"></div>
+                <div class="banner banner2">1<img src="" alt="" class="img_2"></div>
+                <div class="banner banner3">2</div> 
+        
+                <div class="btn_slide btn_slide_L">〈</div>
+                <div class="btn_slide btn_slide_R">〉</div>
+        
+                <div class="indi_box">
+                    <div class="circle circle_active"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                </div>
+                <!-- &lt; &gt; &amp; &quot;  -->
+            </div>
+        </div>
+        </div>
+        <div class="main contents_area"></div>
+    </div>
+</div><script>
+    let btn_slide_L = document.getElementsByClassName('btn_slide_L')[0];
+    let btn_slide_R = document.getElementsByClassName('btn_slide_R')[0];
+    
+    let banner = document.getElementsByClassName('banner');
+    let b_count = banner.length
+    // let curr_idx = b_count; // 방법1
+    let curr_idx = 0; // 방법2
+    // let pos_x = 0; //
+
+    let chk = true;
+
+    btn_slide_L.addEventListener('click', ()=> {
+        // if(chk) {
+            // chk = false
+            btn_slide_L.style.pointerEvents = "none"
+
+            let pos_x = 0;
+            let interval = setInterval(() => { 
+                // 나갈판(현재 보고있는 판)
+                banner[curr_idx % b_count].style.left = `${pos_x}%`;
+
+                // 들어올판 - 우측 바깥쪽에 빠르게 배치되고, 가운데로 들어와야함
+                // 방법1
+                // banner[(curr_idx-1) % b_count].style.left = `-${100 - pos_x}%`;
+                
+                // 방법2
+                banner[(curr_idx+(b_count-1)) % b_count].style.left = `-${100 - pos_x}%`;
+
+                pos_x+=1;
+
+                if(pos_x > 100) {
+                    clearInterval(interval);
+                    // 방법2
+                    curr_idx=curr_idx+(b_count-1)
+                    // chk = true;
+                    btn_slide_L.style.pointerEvents = "auto"
+
+                    // 방법1
+                    // curr_idx-=1;
+                    // if(curr_idx <= 0) {
+                    //     curr_idx = b_count;
+                    // } 
+                    // pos_x = 0
+                }
+                
+            }, 10);
+        // }
+    })
+
+
+    btn_slide_R.addEventListener('click', ()=> {
+        if(chk) {
+            chk = false
+            let pos_x = 0;
+            let interval = setInterval(() => {
+                // 나갈판(현재 보고있는 판)
+                banner[curr_idx % b_count].style.left = `-${pos_x}%`;
+
+                // 들어올판 - 우측 바깥쪽에 빠르게 배치되고, 가운데로 들어와야함
+                banner[(curr_idx+1) % b_count].style.left = `${100 - pos_x}%`;
+
+                pos_x+=1;
+
+                if(pos_x > 100) {
+                    clearInterval(interval);
+                    chk = true;
+                    curr_idx+=1;
+                    // if(curr_idx <= 0) {
+                    //     curr_idx = b_count;
+                    // } 
+                    // pos_x = 0
+                }
+                
+            }, 10);
+        }
+    })
+
+
+
+</script>
+</body>
+</html>
